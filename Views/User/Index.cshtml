@@ -1,0 +1,15 @@
+﻿@model IList<EditPageWithJQueryAjax.ViewModels.UserViewModel>
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Users</h2>
+<ul>
+    @{
+        foreach (var m in Model){
+            <li>
+                @Html.ActionLink(m.FirstName + " " + m.LastName ,"Details", new { id = m.Id })
+            </li>  
+        }
+    }
+</ul>

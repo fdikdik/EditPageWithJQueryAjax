@@ -1,0 +1,28 @@
+﻿@model EditPageWithJQueryAjax.ViewModels.UserViewModel
+<h2>Details</h2>
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(x => x.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.FirstName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(x => x.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.LastName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.LabelFor(x => x.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(x => x.Email)
+            </td>
+        </tr>
+    </table>

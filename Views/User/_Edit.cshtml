@@ -1,0 +1,41 @@
+﻿@model EditPageWithJQueryAjax.ViewModels.UserViewModel
+<h2>Edit</h2>
+@using (Html.BeginForm("Edit", "User", null, FormMethod.Post, new { id = "edit-form" }))
+{
+@Html.HiddenFor(x => x.Id)
+<table>
+    <tr>
+        <td>
+            @Html.LabelFor(x => x.FirstName)
+        </td>
+        <td>
+            @Html.EditorFor(x => x.FirstName)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(x => x.LastName)
+        </td>
+        <td>
+            @Html.EditorFor(x => x.LastName)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            @Html.LabelFor(x => x.Email)
+        </td>
+        <td>
+            @Html.EditorFor(x => x.Email)
+        </td>
+    </tr>
+     <tr>
+        <td>
+           <input type="button" value="Save" id="btn-save" />
+        </td>
+        <td>
+          <input type="button" value="Cancel" id="btn-cancel" />
+        </td>
+    </tr>
+</table>
+}
+

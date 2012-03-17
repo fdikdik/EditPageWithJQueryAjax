@@ -1,0 +1,97 @@
+﻿@model EditPageWithJQueryAjax.ViewModels.UserViewModel
+@{
+    ViewBag.Title = "Details";
+}
+<style type="text/css">
+    ul#nav-page {float:right;}
+    ul#nav-page li{display:inline;}
+    #details-edit {clear:both;}
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        //dtailsCache is used to save the details information before we send ajax request 
+        //that will change the display to edit form
+        var detailsCache,
+            btnSaveClick,
+            btnCancelClick,
+            btnEditClick;
+
+        btnEditClick = function () {
+            //if detailsCache is not null it means at the moment user is editing the item
+            if (detailsCache != null) {
+                return false;
+            }
+
+            $.ajax({
+                type: "GET",
+                url: $(this).attr("href"),
+                success: function (data) {
+                    if (data.messageError == null) {
+                        detailsCache = $("#details-edit").html();
+                        $("#details-edit").html(data);
+
+                        //data variable contains edit form and after we swap the details-edit to edit form
+                        //we attach event to save and cancel button included in edit form
+                        $("#btn-save").click(btnSaveClick);
+                        $("#btn-cancel").click(btnCancelClick);
+                    }
+                    else {
+                        alert(data.messageError);
+                    }
+                },
+                error: function () {
+                    alert("request failed");
+                }
+            });
+            return false;
+        }
+
+        btnSaveClick = function () {
+            $.ajax({
+                type: "POST",
+                url: $("#edit-form").attr("action"),
+
+                //we should send the the fields value to server
+                data: $("#edit-form").serialize(),
+                success: function (data) {
+                    if (data.messageError == null) {
+                        $("#details-edit").html(data.html);
+                        alert(data.message);
+                    }
+                    else {
+                        alert(data.messageError);
+                        $("#details-edit").html(detailsCache);
+                    }
+                },
+                error: function () {
+                    alert("request failed");
+                    $("#details-edit").html(detailsCache);
+                }
+            });
+            //after we save the edited item we clear the cache
+            detailsCache = null;
+        }
+
+        btnCancelClick = function () {
+            //change the display as before
+            $("#details-edit").html(detailsCache);
+            detailsCache = null;
+        }
+
+        $("#link-edit").live("click", btnEditClick);
+    });
+</script>
+
+<ul id="nav-page">
+    <li>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { id = "link-edit" })
+    </li>
+    <li>
+        <a href="#">Delete</a>
+    </li>
+</ul>
+<div id="details-edit">
+    @Html.Partial("_Details",Model)
+</div>
+
